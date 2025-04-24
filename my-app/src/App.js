@@ -3,7 +3,7 @@ import './App.css';
 var searchTerm
 var amazonResult
 var walmartResult
-var targetResult
+var aliBabbaResult
 
 
 function App() {
@@ -26,30 +26,12 @@ function App() {
   );
 }
 
-/**
- * This function makes a basic API call to a sample API and returns the JSON data.
- * It was used to test API calls in React.
- * The API used in this example is a sample API that returns a list of red wines.
-*/
-async function basicAPICall() {
-  try {
-    const response = await fetch('https://api.sampleapis.com/wines/reds');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const jsonData = await response.json();
-    return jsonData;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
-
 export default App;
 
 function searchProducts() {
   amazonAPICall();
   walmartAPICall();
-  //targetAPICall();
+  aliBabbaAPICall();
 }
 async function amazonAPICall() {
   const url = 'https://amazon-online-data-api.p.rapidapi.com/search?query=crocs&page=1&geo=US';
@@ -64,9 +46,7 @@ const options = {
 try {
 	const response = await fetch(url, options);
 	const result = await response.json();
-	console.log(result);
   amazonResult = await result.products[0];
-  console.log(amazonResult);
 } catch (error) {
 	console.error(error);
 }
@@ -87,8 +67,27 @@ async function walmartAPICall() {
     const response = await fetch(url, options);
     const result = await response.json();
     walmartResult = await result.itemsV2[0]
-    console.log(walmartResult);
   } catch (error) {
     console.error(error);
   }
+}
+
+async function aliBabbaAPICall() {
+  const url = 'https://alibaba-datahub.p.rapidapi.com/item_search?q=shoes&page=1';
+const options = {
+	method: 'GET',
+	headers: {
+		'x-rapidapi-key': '89e5627daamshca69235f04cbfebp1db5adjsn4a8297c8a77c',
+		'x-rapidapi-host': 'alibaba-datahub.p.rapidapi.com'
+	}
+};
+
+try {
+	const response = await fetch(url, options);
+	const result = await response.json();
+  aliBabbaResult = await result.result.resultList[0].item;
+}
+catch (error) {
+	console.error(error);
+}
 }
