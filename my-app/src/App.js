@@ -3,16 +3,16 @@ import React from 'react';
 var searchTerm = 'shoes'
 var amazonResult
 var walmartResult
-var aliBabbaResult
+var aliBabaResult
 var amazonPrice = 0;
 var walmartPrice = 0;
-var aliBabbaPrice = 0;
+var aliBabaPrice = 0;
 var amazonURL = "https://www.amazon.com";
-var aliBabbaURL = "https://www.alibaba.com";
+var aliBabaURL = "https://www.alibaba.com";
 var walmartURL = "https://www.walmart.com";
 var amazonBoolean = false;
 var walmartBoolean = false;
-var aliBabbaBoolean = false;
+var aliBabaBoolean = false;
 
 function App() {
   return (
@@ -40,10 +40,10 @@ function App() {
           <p>${walmartPrice}</p><br />
           <a href={walmartURL}>Walmart Link</a>
         </div>
-        <div className="AliBabba">
-          <h2>AliBabba Price</h2>
-          <p>${aliBabbaPrice}</p><br />
-          <a href={aliBabbaURL}>AliBabba Link</a>
+        <div className="AliBaba">
+          <h2>AliBaba Price</h2>
+          <p>${aliBabaPrice}</p><br />
+          <a href={aliBabaURL}>AliBaba Link</a>
         </div>
       </div>
     </div>
@@ -57,16 +57,16 @@ async function searchProducts() {
   searchTerm = document.querySelector('input[name="productName"]').value;
   amazonResult = await amazonAPICall();
   walmartResult = await walmartAPICall();
-  aliBabbaResult = await aliBabbaAPICall();
-  while(amazonBoolean == false || walmartBoolean == false || aliBabbaBoolean == false) {
+  aliBabaResult = await aliBabaAPICall();
+  while(amazonBoolean == false || walmartBoolean == false || aliBabaBoolean == false) {
   }
   console.log(`Waiting done`)
   document.querySelector('.Amazon p').innerText = `$`+amazonPrice;
   document.querySelector('.Walmart p').innerText = walmartPrice
-  document.querySelector('.AliBabba p').innerText = `$`+aliBabbaPrice;
+  document.querySelector('.AliBaba p').innerText = `$`+aliBabaPrice;
   document.querySelector('.Amazon a').href = await amazonURL;
   document.querySelector('.Walmart a').href = await walmartURL;
-  document.querySelector('.AliBabba a').href = await aliBabbaURL;
+  document.querySelector('.AliBaba a').href = await aliBabaURL;
 }
 async function amazonAPICall() {
   const url = `https://amazon-online-data-api.p.rapidapi.com/search?query=${searchTerm}&page=1&geo=US`;
@@ -115,7 +115,7 @@ async function walmartAPICall() {
   return await itemResult
 }
 
-async function aliBabbaAPICall() {
+async function aliBabaAPICall() {
   const url = `https://alibaba-datahub.p.rapidapi.com/item_search?q=${searchTerm}&page=1`;
 const options = {
 	method: 'GET',
@@ -129,13 +129,13 @@ try {
 	const response = await fetch(url, options);
 	const result = await response.json();
   var itemResult = await result.result.resultList[0].item;
-  aliBabbaPrice = await itemResult.sku.def.priceModule.price;
-  aliBabbaURL = await `https://` + itemResult.itemUrl
+  aliBabaPrice = await itemResult.sku.def.priceModule.price;
+  aliBabaURL = await `https://` + itemResult.itemUrl
 }
 catch (error) {
 	console.error(error);
 }
-aliBabbaBoolean = true;
+aliBabaBoolean = true;
 return await itemResult
 }
 
